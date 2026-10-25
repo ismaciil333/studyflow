@@ -150,6 +150,28 @@ class StudyFlow:
             foreground=[("selected", "white")]
         )
 
+        # Coloured buttons (tk.Button ignores colours on macOS)
+        for name, color, hover in [
+            ("Purple", PURPLE, "#7C3AED"),
+            ("Green", GREEN, "#16A34A"),
+            ("Red", RED, "#DC2626")
+        ]:
+            style.configure(
+                f"{name}.TButton",
+                background=color,
+                foreground="white",
+                font=("Arial", 10, "bold"),
+                borderwidth=0,
+                focusthickness=0,
+                padding=(15, 9)
+            )
+
+            style.map(
+                f"{name}.TButton",
+                background=[("pressed", hover), ("active", hover)],
+                foreground=[("disabled", MUTED)]
+            )
+
         style.configure(
             "Study.Horizontal.TProgressbar",
             troughcolor=INPUT_BG,
@@ -307,18 +329,11 @@ class StudyFlow:
             0, date.today().strftime("%Y-%m-%d")
         )
 
-        tk.Button(
+        ttk.Button(
             form,
             text="+ Add Assignment",
             command=self.add_assignment,
-            bg=PURPLE,
-            fg="white",
-            activebackground="#7C3AED",
-            activeforeground="white",
-            font=("Arial", 10, "bold"),
-            relief="flat",
-            padx=13,
-            pady=9,
+            style="Purple.TButton",
             cursor="hand2"
         ).grid(
             row=2,
@@ -354,33 +369,19 @@ class StudyFlow:
             bg=BG
         ).pack(side="left")
 
-        tk.Button(
+        ttk.Button(
             toolbar,
             text="Delete Selected",
             command=self.delete_assignment,
-            bg=RED,
-            fg="white",
-            activebackground="#DC2626",
-            activeforeground="white",
-            font=("Arial", 10, "bold"),
-            relief="flat",
-            padx=15,
-            pady=9,
+            style="Red.TButton",
             cursor="hand2"
         ).pack(side="right", padx=(8, 0))
 
-        tk.Button(
+        ttk.Button(
             toolbar,
             text="Mark Completed",
             command=self.complete_assignment,
-            bg=GREEN,
-            fg="white",
-            activebackground="#16A34A",
-            activeforeground="white",
-            font=("Arial", 10, "bold"),
-            relief="flat",
-            padx=15,
-            pady=9,
+            style="Green.TButton",
             cursor="hand2"
         ).pack(side="right")
 
@@ -565,6 +566,9 @@ class StudyFlow:
             fg=TEXT,
             insertbackground=TEXT,
             relief="flat",
+            highlightthickness=1,
+            highlightbackground=INPUT_BG,
+            highlightcolor=PURPLE,
             width=18
         )
 
